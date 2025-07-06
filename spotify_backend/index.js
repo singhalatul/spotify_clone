@@ -44,6 +44,6 @@ passport.use(new JwtStrategy(opts, async(jwt_payload, done) =>{
 //we want to to tell express that my req go on that particular server
 
 // adding middleware 
-app.use("/auth",authRoutes);
+app.use("/auths",authRoutes);
 app.use("/song",songRoutes);
 app.use("/playlist",playlistRoutes);

@@ -6,36 +6,50 @@ import getToken from "../utils/helper.js"
 
 
 // router that help to create user 
-router.post("/register",async(req,res)=>{
-    const {email,password,firstName,lastName,username} = req.body;
-    const user = await User.findOne({email:email});
-    //check condition if user exist or not
-    if(user){
-        return res
-        .status(403)
-        .json({
-            error:"User already exist"
-        })
+
+router.post("/register", async (req, res) => {
+  try {
+    const { email, password, firstName, lastName, username } = req.body;
+
+    // Validate input
+    if (!email || !password || !firstName || !lastName || !username) {
+      return res.status(400).json({ error: "All fields are required" });
     }
-    //create a new user
-    //donot store password in plain text
-    //convert password in hash
-    const hashPassword = await bcrypt.hash(password,10);
+
+    // Check if user exists
+    const user = await User.findOne({ email: email });
+    if (user) {
+      return res.status(403).json({ error: "User already exists" });
+    }
+
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create the new user
     const newUserData = {
-        email,
-        password : hashPassword,
-        firstName,
-        lastName,
-        username}
+      email,
+      password: hashedPassword, // ✅ fixed name
+      firstName,
+      lastName,
+      username,
+    };
+
     const newUser = await User.create(newUserData);
 
-    //token creation for user identity
+    // Generate token
+    const token = await getToken(email, newUser);
 
-    const token  = await getToken(email,newUser);
-    const userData = await newUser.toObject();
-    const userReturn  = {...userData,token};
+    // Prepare user data to return
+    const userData = newUser.toObject();
+    const userReturn = { ...userData, token };
     delete userReturn.password;
+
     return res.status(200).json(userReturn);
+  } catch (err) {
+    console.error("Error in /register:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 router.post("/login",async (req,res)=>{
