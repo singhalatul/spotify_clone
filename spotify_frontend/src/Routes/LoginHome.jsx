@@ -57,7 +57,7 @@ const spotifyPlaylistsCardData = [
         imgUrl: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
     },
 ];
-function Home(){
+function LoginHome(){
     return(
         <>
             <div className="w-full h-full flex flex-row">
@@ -74,6 +74,7 @@ function Home(){
                         <IconText iconName={"material-symbols:home"} displayText={"Home"} active/>
                         <IconText iconName={"material-symbols:search-rounded"} displayText={"Search"} />
                         <IconText iconName={"icomoon-free:books"} displayText={"Library"} />
+                        <IconText iconName={"material-symbols:library-music-sharp"} displayText={"My music"} />
                     </div>
                     {/* this div is for create playlist or something */}
                     <div className="pt-5">
@@ -99,16 +100,16 @@ function Home(){
                     {/* this div is for navbar */}
                     <div className="navbar w-full bg-black bg-opacity-30 h-1/10 flex justify-end items-center " >
                         <div className="w-1/2 flex h-full">
-                            <div className="flex w-3/5 justify-around items-center">
+                            <div className="flex w-2/3 justify-around items-center">
                                 <TextWithHover displayText={"premium"} />
                                 <TextWithHover displayText={"Support"} />
                                 <TextWithHover displayText={"Download"} />
-                                <div className="h-1/2 border border-white "></div>
+                                <div className="h-1/3 border border-white "></div>
                             </div>
                             <div className ="flex w-2/5 h-full items-center justify-around">
-                                <TextWithHover displayText={"Sign up"} />
-                                <div className="bg-white h-2/3 p-6  flex items-center justify-center rounded-full font-semibold cursor-pointer">
-                                    Log in
+                                <TextWithHover displayText={"Upload song"} />
+                                <div className="bg-white w-10 h-10  flex items-center justify-center rounded-full font-semibold cursor-pointer">
+                                    Ac
                                 </div>
                             </div>
                         </div>
@@ -175,4 +176,4 @@ const Card = ({title,description,imgUrl})=>{
     )
 }
 
-export default Home;
+export default LoginHome;

@@ -18,6 +18,7 @@ const User = new mongoose.Schema({
     password:{
         type:String,
         required:true,
+        private:true,
     },
     likedSongs:{
         type:String,
