@@ -22,7 +22,7 @@ function Login(){
                 const token = response.token;
                 const date = new Date();
                 date.setDate(date.getDate() + 30);
-                // value/name/options 
+                // /name/value/options 
                 setCookie("token", token, {path: "/", expires: date});
                 alert("Success");
                 navigate("/home");

@@ -1,38 +1,38 @@
 import spotify_logo from "../assets/images/spotify_logo_white.svg"
+import {Howl, Howler} from 'howler';
 import IconText from "../components/shared/IconText";
 import {Icon} from "@iconify/react";
 import TextWithHover from "../components/shared/TextWithHover";
-import Input from "../components/shared/Input";
-import {UploadWidget} from "../utils/UploadWidget";
-import { useState } from "react";
-import {makeAuthenticate} from "../utils/serverHelper.js";
-import {useNavigate} from 'react-router-dom';
+import {makeAuthenticateGet} from "../utils/serverHelper.js";
+import SongCard from "../components/shared/SongCard.jsx";
+import { useEffect, useState } from "react";
 
-function UploadSongs(){
-const [name,setName] = useState("");
-const [thumbnail,setThumbnail] = useState("");
-const [songUrl,setSongUrl] = useState("");
-const [uploadSongFileName,setUploadSongFileName] = useState("");
-const navigate = useNavigate();
+function MyMusic(){
+    const [songData ,setSongData]  = useState([]);
+    const[soundPlayed,setSoundPlayed] = useState(null);
 
-const submitSong=async()=>{
-    console.log(name);
-    console.log(thumbnail);
-    console.log(songUrl);
-    const data = {name,thumbnail,track:songUrl};
-    const res = await makeAuthenticate('/song/create',data);
-    // console.log(res);
-    if(res.err){
-        alert("Could not create Song");
-        return;
+    const playSound = (songSrc)=>{
+        if(soundPlayed){
+            soundPlayed.stop();
+        }
+        let sound = new Howl({
+        src: [songSrc],
+        html5: true,       
+        });
+        setSoundPlayed(sound);
+        sound.play();
     }
-    alert("success");
-    navigate("/home");
 
-}
 
-    // console.log(window)
-    // console.log(window.cloudinary);
+    useEffect(()=>{
+        const getData = async () => {
+            const response = await makeAuthenticateGet(
+                "/song/get/mysongs"
+            );
+            setSongData(response.data);
+        };
+        getData();
+    },[])
     return(
         <>
             <div className="w-full h-full flex flex-row">
@@ -89,44 +89,22 @@ const submitSong=async()=>{
                         </div>
                     </div>
                     {/* upload song content*/}
-                    <div  className="content p-8 pt-0 overflow-auto">
-                        <div className="text-2xl font-semibold mb-5 text-white mt-8 ">upload Your Music</div>
-                        <div>
-                            <div className="w-2/3 flex space-x-3">
-                                <div className="w-1/2" >
-                                    <Input 
-                                    label="Song Name"
-                                    labelClassName="text-white"
-                                    placeholder="Enter Song Name"
-                                    value={name}
-                                    setValue={setName}
-                                    />
-                                </div>
-                                <div className="w-1/2">
-                                    <Input 
-                                    label="Thumbnail"
-                                    labelClassName="text-white"
-                                    placeholder="Thumbnail"
-                                    value={thumbnail}
-                                    setValue={setThumbnail}
-                                    />
-                                </div>
-                            </div>
-                            <div className="py-5 ">
-                                {uploadSongFileName ?(
-                                    <div className="w-40 font-semibold bg-white flex items-center justify-center p-4 rounded-full cursor-pointer ">{uploadSongFileName.substring(0,35)}...</div>
-                                ) :(   
-                                    <UploadWidget setUrl={setSongUrl} setSongFileName={setUploadSongFileName}/>
-                                )
-                            }
-                            </div>
-                            <div className="w-40 font-semibold bg-white flex items-center justify-center p-4 rounded-full cursor-pointer"
-                            onClick={()=>submitSong()}
-                            >Submit song</div>
-                            </div>
+                    <div  className="content p-8 overflow-auto">
+                        <div className="text-white text-lg font-semibold pl-2 pb-5">
+                            My Songs
                         </div>
-                    <div>
-                   </div>
+                        <div className="space-y-3 overflow-auto">
+                            {
+                                songData.map((item,index)=>{
+                                    return <SongCard 
+                                    key={index}
+                                    info={item} 
+                                    playSound={playSound}/>
+                                })
+                            }
+                            
+                        </div>
+                    </div>
                 </div>
             </div>        
         </>
@@ -134,5 +112,4 @@ const submitSong=async()=>{
 };
 
 
-
-export default UploadSongs;
+export default MyMusic;

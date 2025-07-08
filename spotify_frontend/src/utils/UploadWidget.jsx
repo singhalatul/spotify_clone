@@ -1,6 +1,6 @@
 import {useRef,useEffect} from 'react';
 import { cloudname, cloudpreset } from './config';
-const UploadWidget = ()=>{
+const UploadWidget = ({setUrl,setSongFileName})=>{
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
     useEffect(()=>{
@@ -12,15 +12,16 @@ const UploadWidget = ()=>{
             // sources:["local"]
         },function(error,result){
             if(!error &&result.event ==="success"){
-                console.log(result.info.secure_url);
+                setUrl(result.info.secure_url);
+                setSongFileName(result.info.original_filename);
             }
         })
     }, [])
 
     return(
-        <button className=" bg-white"
+        <button className=" bg-white tect-black rounded-full p-4 font-semibold"
         onClick={()=> widgetRef.current.open()}
-        >upload</button>
+        >Select Track</button>
     )
 };
 
