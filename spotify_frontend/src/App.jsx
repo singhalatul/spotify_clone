@@ -15,6 +15,8 @@ function App() {
 
   const [cookie,setCookie] = useCookies(["token"]);
   const [currentSong,setCurrentSong] = useState(null);
+    const [soundPlayed,setSoundPlayed] = useState(null);
+    const [isPaused,setIsPaused] = useState(true);
   // console.log(cookie.token);
 
   return (
@@ -23,7 +25,7 @@ function App() {
       <BrowserRouter>
         {cookie.token?(
           // login routes 
-          <songContext.Provider value={{currentSong,setCurrentSong}}>
+          <songContext.Provider value={{currentSong,setCurrentSong,soundPlayed,setSoundPlayed,isPaused,setIsPaused}}>
       <Routes>
           {/* <Route path="/" element={<div>hello</div>} /> */}
             <Route path="/home" element= {<LoginHome />} />  

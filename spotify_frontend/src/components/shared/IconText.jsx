@@ -1,8 +1,10 @@
 import {Icon} from '@iconify/react';
+import { Link } from 'react-router-dom';
 
-function IconText({iconName,displayText,active}){
+function IconText({iconName,displayText,active,targetLink}){
     return(
         <>
+        <Link to={targetLink}>
             <div className={`flex justify-start items-center cursor-pointer`}>
                 <div className="px-5 py-2">
                     <Icon icon={iconName} color={`${active ? "white" :"gray"}`} fontSize={27}/>
@@ -11,6 +13,7 @@ function IconText({iconName,displayText,active}){
                     {displayText}
                 </div>
             </div>
+        </Link>
         </>
     )
 }

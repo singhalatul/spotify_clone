@@ -16,9 +16,9 @@ const [uploadSongFileName,setUploadSongFileName] = useState("");
 const navigate = useNavigate();
 
 const submitSong=async()=>{
-    console.log(name);
-    console.log(thumbnail);
-    console.log(songUrl);
+    // console.log(name);
+    // console.log(thumbnail);
+    // console.log(songUrl);
     const data = {name,thumbnail,track:songUrl};
     const res = await makeAuthenticate('/song/create',data);
     // console.log(res);
