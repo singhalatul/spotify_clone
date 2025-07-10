@@ -9,7 +9,9 @@ import Signup from './Routes/Signup';
 import Home from "./Routes/Home";
 import { useCookies } from 'react-cookie';
 import songContext from './contexts/songContext';
-
+import Search from './Routes/Search';
+import Library from './Routes/Library';
+ 
 
 function App() {
 
@@ -32,6 +34,9 @@ function App() {
             <Route path="/uploadSong" element= {<UploadSong />} />  
             <Route path="/uploadSong" element= {<UploadSong />} />  
             <Route path="/myMusic" element= {<MyMusic />} />  
+            <Route path="/search" element= {<Search />} />    
+            <Route path="/library" element= {<Library />} />    
+                
 
             <Route path="*" element= {<Navigate to="/home" />} />  
       </Routes>

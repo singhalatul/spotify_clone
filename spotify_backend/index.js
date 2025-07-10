@@ -33,7 +33,7 @@ let opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.SECRETJWTKEY;
 passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
-  console.log("JWT Payload:", jwt_payload);
+  // console.log("JWT Payload:", jwt_payload);
   try {
     const user = await User.findById(jwt_payload.sub); // or _id
     if (user) return done(null, user);

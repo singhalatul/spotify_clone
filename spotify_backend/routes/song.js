@@ -21,7 +21,7 @@ async (req,res)=>{
 router.get("/get/mysongs", passport.authenticate("jwt", { session: false }),
     async (req, res) => {
         try {
-            const songs = await Song.find({ artist: req.user._id }).populate("artist"); // <-- await was missing
+            const songs = await Song.find({ artist: req.user._id }).populate("artist"); 
             return res.status(200).json({ data: songs });
         } catch (err) {
            return res.status(500).json({ err: "Failed to fetch songs" });
@@ -55,9 +55,9 @@ router.get("/get/songName/:mySong", passport.authenticate("jwt", { session: fals
             // Optional: log the value for debugging
             // console.log("Searching for song:", mySong);
 
-            // Try case-insensitive search
+            // case-insensitive search
             const regex = new RegExp(`^${mySong}`, "i");
-            const getSong = await Song.find({ name : regex});
+            const getSong = await Song.find({ name : regex}).populate("artist");
 
             if (!getSong) {
                 return res.status(404).json({ err: "Song not found" });

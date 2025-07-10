@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
 
     // Step 5: Return the result to the user
     const userToReturn = {...newUser.toJSON(), token};
-    console.log(userToReturn);
+    // console.log(userToReturn);
     delete userToReturn.password;
     return res.status(200).json(userToReturn);
 });

@@ -46,6 +46,20 @@ router.get("/get/:playlistId",passport.authenticate("jwt",{session:false}),async
     }
     
 });
+
+// getplaylist made by me 
+router.get("/owner/me", passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        try {
+            const ownerId = req.user._id;
+            const playlists = await Playlist.find({owner:ownerId}).populate("owner");
+            return res.status(200).json({data:playlists});
+        } catch (err) {
+            return res.status(500).json({ err: "Failed to fetch playlist" });
+        }
+    }
+);
+
  //get all playlist created by particular artist
  router.get("/get/artist/:artistId",passport.authenticate("jwt",{session:false}),async(req,res)=>{
     try{
@@ -108,7 +122,5 @@ router.post("/add/song", passport.authenticate("jwt", { session: false }), async
         return res.status(500).json({ err: "Error while adding song to playlist" });
     }
 });
-
-
 
 export default router;
