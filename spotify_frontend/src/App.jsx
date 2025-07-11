@@ -11,7 +11,7 @@ import { useCookies } from 'react-cookie';
 import songContext from './contexts/songContext';
 import Search from './Routes/Search';
 import Library from './Routes/Library';
- 
+import SinglePlaylistView from './Routes/SinglePlaylistView';
 
 function App() {
 
@@ -36,6 +36,7 @@ function App() {
             <Route path="/myMusic" element= {<MyMusic />} />  
             <Route path="/search" element= {<Search />} />    
             <Route path="/library" element= {<Library />} />    
+            <Route path="/playlist/:playlistId" element= {<SinglePlaylistView />} />    
                 
 
             <Route path="*" element= {<Navigate to="/home" />} />  

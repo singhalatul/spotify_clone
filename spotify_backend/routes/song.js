@@ -57,7 +57,14 @@ router.get("/get/songName/:mySong", passport.authenticate("jwt", { session: fals
 
             // case-insensitive search
             const regex = new RegExp(`^${mySong}`, "i");
-            const getSong = await Song.find({ name : regex}).populate("artist");
+            const getSong = await Song.find({ name : regex}).populate("artist").populate(
+                {
+                    path:"songs",
+                    populate:{
+                        path:"artist"
+                    }
+                }
+            );
 
             if (!getSong) {
                 return res.status(404).json({ err: "Song not found" });
