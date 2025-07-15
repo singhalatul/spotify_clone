@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Input from "../components/shared/Input";
 import LoggedInContainer from "../containers/LoggedInContainer"
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { makeAuthenticateGet } from "../utils/serverHelper";
 import SongCard from "../components/shared/SongCard";
 
@@ -10,12 +10,17 @@ const Search = ()=>{
     const [searchText,setSearchText] = useState("");
     const [songData,setSongData] = useState([]);
 
+useEffect(()=>{
 
-    const searchSong =async()=>{
+    const time = setTimeout(()=>{      
+        const searchSong =async()=>{
         const response = await makeAuthenticateGet("/song/get/songName/"+searchText);
         console.log(response);
-         setSongData(response.data);
+        setSongData(response.data);
     }
+},500);
+    clearTimeout(time);
+},[searchText])
 
     return(
         <>
